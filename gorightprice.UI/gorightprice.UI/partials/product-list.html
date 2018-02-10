@@ -1,0 +1,89 @@
+<section *ngIf="viewSelected=='List'">
+
+    <div class="product" style="height:70px;max-height:70px">
+        <!-- <div class="col-sm-2"></div> -->
+        <div class="col-sm-3" style="height:70px;max-height:70px">
+            <div class="image">
+                <img class="productlogo" src="{{itemDetails.product_image}}">
+            </div>
+        </div>
+        <div class="col-sm-5" style="height:70px;max-height:70px">
+            <div class="rating-area">
+                <div class="rating-wrapper" data-tooltip="{{getRatingTooltip(itemDetails.product_rating)}}">
+                    <div id="rating1" class="rating" [style.width]="getRating(itemDetails.product_rating)"></div>
+                </div>
+            </div>
+            <div class="product_title">{{itemDetails.product_title}}</div>
+
+        </div>
+        <div class="col-sm-4">
+            <div class="product-title">
+                <span>
+                    <div class="price">{{itemDetails.product_lowest_price}}</div>
+                </span>
+                <span>&#8377;</span>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<ng-container *ngIf="viewSelected=='Grid'">
+    <!-- <div  class="row products"> -->
+            <ul class="products-grid products-grid--max-4-col first last odd" style="z-index:10;">
+    <li class="item last" *ngFor="let item of pagedItems" >
+
+
+
+        <!--Out of stock sticker-->
+
+        <div class="card" (click)="productClickHandler(item.product_link,item.product_id,item.product_lowest_price)">
+            <a  class="card-link ">
+
+                <div class="img-container product-image" title={{item.product_title}}>
+                    <img src={{item.product_image}}>
+                </div>
+
+                <div class="product-info">
+                    <!-- <h3 class="product-brand">Apple</h3> -->
+                    <h3 class="product-name" title={{item.product_title}}>{{item.product_title}}</h3>
+                    <!-- <script type="text/javascript">
+                        ConfigurableMediaImages.setImageFallback(20532, jQuery.parseJSON('[]'));
+                        ConfigurableSwatchesList.init();
+                    </script> -->
+                    <div class="rating-area">
+                            <div class="rating-wrapper" data-tooltip="{{getRatingTooltip(item.product_rating)}}">
+                             <div id="rating1" class="rating" [style.width]="getRating(item.product_rating)"></div>
+                            </div>
+                             </div>
+                    <div class="price-cobmined">
+
+
+
+
+                        <div class="price-box">
+                            <span class="regular-price" id="product-price-20532">
+                                <span class="price"><span>&#8377;</span> {{item.product_lowest_price}}</span>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                   
+                </div>
+            </a>
+        </div>
+       
+    </li>
+
+</ul>
+
+
+
+
+
+    
+
+</ng-container>

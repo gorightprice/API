@@ -1,0 +1,214 @@
+ Get CSS Clear
+* {
+  box-sizing: border-box;
+}
+.carousel {
+  position: relative;
+}
+ol, ul {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+.carousel-indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  z-index: 15;
+  width: 60%;
+  padding-left: 0px;
+  margin-left: -30%;
+  text-align: center;
+  list-style-type: none;
+  list-style-position: initial;
+  list-style-image: initial;
+  
+}
+.carousel-indicators li {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-top: 1px;
+  margin-right: 1px;
+  margin-bottom: 1px;
+  margin-left: 1px;
+  text-indent: -999px;
+  cursor: pointer;
+  background-color: black;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: rgb(255, 255, 255);
+  border-right-color: rgb(255, 255, 255);
+  border-bottom-color: rgb(255, 255, 255);
+  border-left-color: rgb(255, 255, 255);
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.carousel-indicators .active {
+  width: 12px;
+  height: 12px;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+ /* background-color: rgb(255, 255, 255);*/
+  background-color: black;
+}
+.carousel-inner {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.carousel-inner > .item {
+  position: relative;
+  display: none;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+  transition-delay: initial;
+  transition-property: left;
+}
+.text-center {
+  text-align: center;
+}
+.image[_ngcontent-c7] {
+  position: relative;
+  height: 600px;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: rgb(223, 225, 232);
+  border-right-color: rgb(223, 225, 232);
+  border-bottom-color: rgb(223, 225, 232);
+  border-left-color: rgb(223, 225, 232);
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+  object-fit: cover;
+  background-color: black;
+}
+img {
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-top-style: initial;
+  border-right-style: initial;
+  border-bottom-style: initial;
+  border-left-style: initial;
+  border-top-color: initial;
+  border-right-color: initial;
+  border-bottom-color: initial;
+  border-left-color: initial;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+  vertical-align: middle;
+  max-width: 100%;
+}
+.carousel-inner > .active, .carousel-inner > .next, .carousel-inner > .prev {
+  display: block;
+}
+.carousel-inner > .active {
+  left: 0px;
+}
+a {
+  background-color: transparent;
+  color: rgb(51, 122, 183);
+  text-decoration-line: none;
+  text-decoration-style: initial;
+  text-decoration-color: initial;
+}
+a:focus {
+  outline-color: -webkit-focus-ring-color;
+  outline-style: auto;
+  outline-width: 5px;
+  outline-offset: -2px;
+}
+.carousel-control1 {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.6) 0px 1px 0px;
+  background-color: rgba(0, 0, 0, 0);
+ 
+}
+.carousel-control1.left{
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0px, rgba(0, 0, 0, 0) 100%);
+  background-repeat-x: repeat;
+  background-repeat-y: no-repeat;
+}
+a, a:hover, a:focus {
+  color: rgb(137, 204, 45);
+  text-decoration-line: none;
+  text-decoration-style: initial;
+  text-decoration-color: initial;
+  transition-duration: 0.3s;
+  transition-timing-function: initial;
+  transition-delay: initial;
+  transition-property: all;
+}
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: "Glyphicons Halflings";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+.glyphicon-chevron-left::before {
+  content: "";
+}
+.carousel-control1 .glyphicon-chevron-left, .carousel-control1 .glyphicon-chevron-right, .carousel-control1 .icon-next, .carousel-control1 .icon-prev {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  display: inline-block;
+  margin-top: -10px;
+}
+.carousel-control1 .glyphicon-chevron-left, .carousel-control .icon-prev {
+  left: 50%;
+  margin-left: -10px;
+}
+.carousel-control1.right {
+  right: 0px;
+  left: auto;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0.5) 100%);
+}
+.glyphicon-chevron-right::before {
+  content: "";
+}
+.carousel-control1 .glyphicon-chevron-right, .carousel-control1 .icon-next {
+  right: 50%;
+  margin-right: -10px;
+}

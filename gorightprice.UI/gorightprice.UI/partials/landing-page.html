@@ -1,0 +1,119 @@
+<div class="top-content" >
+
+    <div class="container" >
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text">
+                <h1 class="wow fadeInLeftBig">Single place to Search and Compare  Millions of products</h1>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-xs-12 subscribe wow fadeInUp">
+
+                <div class="col-xs-12 col-sm-6" style="margin:0 auto;display:inline-flex;">
+
+                    <input [(ngModel)]="asyncSelected" [typeahead]="dataSource" [typeaheadItemTemplate]="customeItemTemplate" typeaheadMinLength='3'
+                        (typeaheadOnSelect)="typeaheadOnSelect($event)" typeaheadOptionsLimit='7' placeholder="how can i help you to search the product?"
+                        class="form-control search-input" style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Arial,Helvetica,sans-serif;color:#AD2A47">
+
+                    <i class="glyphicon glyphicon-search search-input-icon" (click)="hightlightSearch();"></i>
+
+                </div>
+
+            </div>
+            <ng-template #customeItemTemplate let-model="item" let-index="index">
+                <h5>{{model}}</h5>
+            </ng-template>
+
+        </div>
+    </div>
+    
+</div>
+
+<div class="tile-container tile tile-middle" style="margin-bottom: 15px; margin-top: 12px;">
+        <div class="tile-container-heading" style="margin-bottom: 0;">Featured Products</div>
+        <div class="tile tilew2"><a href="https://shopmonk.com.au/technology/phones/apple/"> <img alt="" src="assets/img/iphone.jpg"> </a></div>
+        <div class="tile tilew2"><a href="https://shopmonk.com.au/technology/phones/samsung/"> <img alt="Samsung" src="assets/img/samsung.png"> </a></div>
+</div>
+<div class="tile-container tile tile-middle">
+        <div class="tile-container-heading" style="margin-bottom: 0;">Featured Store</div>
+        <div class="tile tilew3"><a href="https://shopmonk.com.au/technology/phones/apple-certified-pre-owned-phones/"> <img alt="" src="assets/img/amazon.jpeg" > </a></div>
+        <div class="tile tilew3"><a href="https://shopmonk.com.au/technology/phones/apple-certified-pre-owned-phones/"> <img alt="" src="assets/img/flipkart.jpeg" > </a></div>
+        <div class="tile tilew3"><a href="https://shopmonk.com.au/technology/computer-and-tablets/tablets/"> <img alt="" src="assets/img/shopclues.jpg" > </a></div>
+        <div class="tile tilew3"><a href="https://shopmonk.com.au/technology/audio/bluetooth-speakers/"> <img alt="" src="assets/img/TataCliq.jpg" > </a></div>
+</div>
+
+<div class="tile-container tile tile-middle" style="background: black;margin-top: 22px;">
+        <div class="tile tilew2">
+                <h3 style="font-family: Arial;color:whitesmoke">About Us</h3>
+                <p style="font-family: Arial;color:whitesmoke">
+              
+                Excellent deal-hunter , we make it surprisingly easy for you to find everything from mobile to 
+                tv to tiki torches'all at the price, place and moment that's right for you. 
+                Browse, search,share, get the deal: with Gorightprice.com, you'll love the way you shop.
+                we use our best-in-class search technology and proven expertise to ensure that each and 
+                every one of those shoppers is a happy one. 
+
+                </p>
+                <p style="font-family: Arial;color:whitesmoke">
+                        Powered By <a href="https://angular.io/" style="font-family: Arial;color: #008ccc;">Angular4</a>
+                </p>
+
+                <h3 style="font-family: Arial;color:whitesmoke">SUBSCRIBE US</h3>
+                <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.value)" #f="ngForm" novalidate>
+                 <div class="form-group">
+                      <input 
+                            name="email"
+                            type="text"                
+                            #email="ngModel"
+                            [(ngModel)]="model.email"
+                            required
+                            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                            placeholder="Email" 
+                            (ngModelChange)="valuechange()" style="font-family: Arial;border-color: #337ab7;width:300px">
+                             <input type="submit" [disabled]="loading" class="btn btn-custom-3" value="Subscribe">
+                              <div *ngIf="f.submitted" [innerHTML]="message" style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Arial,Helvetica,sans-serif;"></div>
+                            
+                             <div class="md-errors-spacer" [hidden]="email.valid || email.untouched">
+                             <div  *ngIf= "email.errors && email.errors.required && message ==''" style="font-family: Arial;">
+                              Email is required
+                             </div>
+                             <div  *ngIf="email.errors && email.errors.pattern && message ==''" style="font-family: Arial;">
+                              Email is invalid
+                             </div>
+                             <img *ngIf="loading" src="/assets/img/source.gif" >
+                       </div>
+                         </div>
+                       
+                   
+                </form>
+            </div>
+        <div class="tile tilew2">
+                 
+               
+                <h3 style="font-family: Arial;color:whitesmoke;">Mail Us</h3>
+                <div class="Row" style="font-family: Arial;color:whitesmoke;">
+                        <div class="Column1"> <i class="fa fa-envelope" aria-hidden="true"></i> Email:</div>
+
+                        <div class="Column1"> <a href="mailto:contact@gorightprice.com" style="font-family: Arial;color:whitesmoke;">contact@gorightprice.com</a></div>
+                        
+                </div>
+
+
+
+            
+                <h3 style="font-family: Arial;color:whitesmoke;">We're Social</h3>
+                        <div class="Row1">
+                                <div class="Column1"><a href="#" class="fa fa-facebook" style="padding-left: 22px;"></a></div>
+                                <div class="Column1"> <a href="#" class="fa fa-twitter"></a></div>
+                                <div class="Column1"><a href="#" class="fa fa-youtube"></a></div>
+                        </div>
+                      
+        </div>
+      
+
+        </div>
+      

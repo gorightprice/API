@@ -1,0 +1,197 @@
+
+<!-- <div class="loading" *ngIf="!pageLoaded">Loading&#8230;</div> -->
+<section class="main-body" *ngIf="!pageLoaded">
+    <div class="loading_grp"></div>
+</section>
+<hr>
+<div>
+        <ul>
+            <li>
+                
+            <span class="left" style="width:30%;margin-bottom:20px;">
+          
+                    <div  *ngIf="productStoresData">
+                        <div style="padding-bottom:30px;">
+                            <product-store-image [imageData]="getImageData()" class="product-image-view"></product-store-image>
+                         
+                        </div>
+                   
+                </div>
+            
+            </span>
+                
+                
+                <span class="right" style="width:50%">
+                     
+                        <div class="product-title" >
+                                <h3><p>
+                              {{productStoresData.product_name}}  
+                                </p></h3>
+       
+                      
+                
+                        <div class="rating-area" *ngIf="productStoresData" style="padding-bottom:10px;padding-top:10px;">Rating
+                                    <div class="rating-wrapper" data-tooltip="{{getRatingTooltip(productStoresData.product_ratings)}}" style="float:left" >
+                                            <div id="rating1" class="rating" style="float:left" [style.width]="productStoresData.product_ratings?getRating(productStoresData.product_ratings):'0%'"></div>
+                                    </div>
+                              
+                            </div>
+                        
+                            <div *ngIf="productStoresData.available_colors && productStoresData.available_colors.length > 1">
+                                    <div class="span" >Color Available
+                                    <table >
+                                        <tr>
+                                            <td *ngFor="let item of productStoresData.available_colors;let i=index">
+                                                <div *ngIf="productStoresData.available_colors[i] != 'All Colours'">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                 <div class="gap" data-tooltip={{productStoresData.available_colors[i]}}   style.background-color={{productStoresData.available_colors[i]}} > </div>
+                                                                 
+                                                            </td>
+                                                                <td>
+                                            
+                                                                 <div class="gap" style.background-color="yellow"> </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                   
+                                                  
+            
+            
+                                                </div>
+                                            </td>
+            
+                                        </tr>
+                                    </table>
+                                    </div>
+                                </div>
+                                <div>
+                                    <hr>
+                                </div>
+                
+                                <div class="prdct-dtl__prc" *ngIf="lowestPrice>0; else templatePrice">
+                                        <span class="prdct-dtl__prc-lbl">Best Price : ₹ {{lowestPrice}}</span>
+                                        <div class="prdct-dtl__prc-lbl"></div>
+                                    </div>
+                                    <ng-template #templatePrice>
+                                     
+                                        <div class="prdct-dtl__prc">
+                                            <span class="prdct-dtl__prc-lbl">Expected Price : </span>
+                                            <div class="prdct-dtl__prc-lbl"><span class="span"> ₹</span><span>{{lowPrice}}</span></div>
+                                            
+                                       </div>
+                                    <hr>
+                                    </ng-template>
+                
+                
+                                      <div class="stores">
+                          
+                      
+                       
+                            <div class="store-table" *ngIf="lowestPrice>0; else templateStore">
+                                    <div class="store-item " *ngFor="let item of productStoresData.stores">
+                                 
+                                        <div *ngIf="getProductDetails(item).product_price>0">
+                                            <div class="prc-tbl__row clearfix row">
+                                                <div class="prc-tbl__logo col-xs-4" style="display:inline-block;">
+                                                    <img src="{{getProductDetails(item).product_store_logo}}" alt="" class="img-responsive image1">
+                                                    <div class="span"><span>{{getProductDetails(item).product_offer}}</span></div>
+                                                </div>
+                                                <div class=" col-xs-4" style="display: inline-block;">
+                                                    <div class="span" >₹{{getProductDetails(item).product_price}}</div>
+                                                    <div class="prc-tbl__shpng" *ngIf="getProductDetails(item).is_emi==1">
+                                                        <span class="span">EMI Available  </span>
+                                                    </div>
+                                                    <div class="prc-tbl__shpng" *ngIf="getProductDetails(item).is_cod==1">
+                                                        <span class="span">COD Available </span>
+                                                    </div>
+                                                </div>
+                                                <div class=" col-xs-4" style="display: inline-block;">
+                                                    <button type="button" class="btn btn-primary" (click)="onNavigate(getProductDetails(item).product_store_url)">Go to Store</button>
+        
+                                                    <div class="prc-tbl__shpng" *ngIf="getProductDetails(item).product_delivery_cost>-1">
+                                                        <span class="span">Free Shipping </span>
+                                                    </div>
+                                                    <div class="prc-tbl__shpng">
+                                                        <span class="span" Style="width:100%">Delivery {{getProductDetails(item).product_delivery}}</span>
+                                                        <span
+                                                            class="span">Days
+                                                        </span>
+                                                    </div>
+        
+        
+                                                </div>
+        
+        
+                                            </div>
+                                            <div>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ng-template #templateStore>
+                                        
+                                       <div class="prdct-dtl__prc">
+                                               <span class="prdct-dtl__prc-lbl">Coming Soon/Out Of Stock</span>
+                                              
+                                               
+                                       </div>
+                                       <hr>
+                                   </ng-template>
+                                
+        
+        
+                     
+        
+                        
+        
+                      
+                    
+
+
+                         </div>
+                
+                
+                        </div>
+                
+                
+                           
+                </span></li>
+
+               
+           
+        </ul>
+</div>
+
+     <div class="col-xs-12" *ngIf="subScpecData.length">
+        
+                 
+        
+                          
+                       
+                            <div  *ngIf="subScpecData.length">
+                           
+                             <hr>
+                            <table class="tchncl-spcftn__tbl">
+                                <tr>
+                                    <td >
+                                    <h2 class="sctn__hdr prc-grid__hdr sctn__ttl ">Specifications</h2><td>
+                                </tr>
+                                <tbody *ngFor="let obj of subScpecData;let i=index">
+                                <tr > 
+                                <td colspan="2" class="tchncl-spcftn__ctgry">{{specNames[i]}}</td> 
+                                </tr>
+                                 <tr class="tchncl-spcftn__item" *ngFor="let route of obj"> 
+                                <td class="tchncl-spcftn__item-key">{{route.spec_key}}</td>
+                                 <td class="tchncl-spcftn__item-val">{{route.spec_value}}</td> 
+                                </tr>
+                                </tbody>
+                            </table>
+                            
+                            </div>
+                        
+                        
+    </div>
+        

@@ -1,0 +1,24 @@
+<section>    
+      
+    <div class="prdct-dtl__img-wrpr" data-toggle="modal" data-target="#myModal">
+        <img class="prdct-dtl__img" src="{{parentImageSrc}}">
+
+    </div>
+    <div class="prdct-dtl__thmbnl-wrpr " *ngIf="imageData && imageData.length>1">
+        <div style="margin:0px auto">
+            <div class="prdct-dtl__thmbnl" *ngFor="let item of imageData" (mouseover)="updateImagesrc(item)"> <img class="prdct-dtl__thmbnl-img" src="{{item}}"> </div>
+        </div>
+
+    </div>
+    
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content" style="width: 100%; height: 100%;">
+            <div class="modal-body" style="text-align:center;height:500px;">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <img src="{{parentImageSrc}}"  class="prdct-dtl__img" style="margin:0px auto">
+            </div>
+        </div>
+      </div>
+    </div>
+</section>

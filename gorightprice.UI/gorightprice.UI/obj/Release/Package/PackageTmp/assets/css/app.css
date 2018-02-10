@@ -1,0 +1,191 @@
+body {
+	margin: 0px;
+  /*  height:100%; */
+    width:100%;
+    max-width: 100%;
+    height: auto;
+}
+
+.header {
+	width: 100%;
+	/* height: 60px; */
+  vertical-align: middle;
+  position: fixed;
+    /* margin-left: 1.5%; */
+   
+}
+.footer {
+	width: 100%;
+	height: 30%;
+	margin: 0px;
+	font-family: Arial;
+}
+.main-body{
+  min-height: 100vh;
+  max-width: 100%;
+  height: auto;
+}
+
+.click-message {
+	width: 100%;
+	height: 4%;
+	margin: 0px;
+	text-align: center;
+	color: #333;
+    font-family: Aachen;
+	font-weight:400;
+	font-size: 1.25vw;
+	background: #fff;/*image required here*/
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}
+
+.main-contents {
+	width: 100%;
+	height: calc(70%-60px);
+	margin: 0px;
+}
+
+.click-span {
+	font-family: 'Helvetic-Neue';
+	position: relative;
+    top: 25%;
+}
+
+.analytics-img {
+    height: 90%;
+    width: initial;
+    position: relative;
+    margin-right: 2%;
+}
+
+.related-analytics {
+	height: 3%;
+	width: 11%;
+	margin: auto 0% auto 0%;
+	float: right;
+	font-size: 1vw;
+	color: #444;
+	font-weight: bold;
+	position: fixed;
+	right: 4%;
+	top: 2%;
+	font-family: 'Helvetic-Neue';
+	font-weight: 400;
+}
+
+.logo {
+	height: 85%;
+	width: initial;
+	position: relative;
+	top: 20%;
+}
+/* a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+    padding: 0;
+    border: 0;
+    margin: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+} */
+
+.stick-to-right {
+        width: 100%;
+        float: right;
+	}
+	
+	.toolbar .toolContent, .infiniteScroll {
+  height: 25px;
+  padding-bottom: 0px;
+  padding-top: 2px;
+  white-space: nowrap;
+}
+.infiniteScroll {
+  clear: left;
+  padding-top: 0px;
+  padding-right: 17px;
+  padding-bottom: 0px;
+  padding-left: 20px;
+  line-height: 60px;
+  height: 60px;
+  font-family: Arial;
+}
+.infiniteScroll span {
+  color: rgb(255, 255, 255);
+}
+.infiniteScroll .whiteTxt {
+  color: white;
+  font-weight: normal;
+  font-size: 11px;
+  font-family: Arial;
+}
+.toolbarContainer .toolTitle {
+  color: rgb(64, 64, 65);
+  font-weight: bold;
+  margin-top: 0px;
+  margin-right: 9px;
+  margin-bottom: 0px;
+  margin-left: 9px;
+  font-family: Arial;
+}
+.infiniteScroll .toolTitle, .infiniteScroll a {
+  color: rgb(0, 140, 204);
+  font-size: 11px;
+  font-weight: normal;
+  text-decoration-line: none;
+  text-decoration-style: initial;
+  text-decoration-color: initial;
+  font-family: Arial;
+}
+.scrollToTop {
+  cursor: pointer;
+}
+a {
+  text-decoration-line: none;
+  text-decoration-style: initial;
+  text-decoration-color: initial;
+  color: inherit;
+  font-family: Arial;
+}
+.toolTitle span {
+  color: rgb(0, 140, 204);
+  font-family: Arial;
+}
+.nxtCopyright {
+  margin-left: 8px;
+  font-family: Arial;
+}
+
+/*footer */
+
+address {
+  font-style: normal;
+}
+.footer .block-title, .footer address {
+  color: rgb(255, 255, 255);
+}
+.footer .bugs, .footer address {
+  clear: both;
+}
+.footer address {
+  text-align: center;
+  width: 100%;
+  font-size: 11px;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  height: 30px;
+  line-height: 30px;
+  background-image: initial;
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: initial;
+  background-repeat-x: initial;
+  background-repeat-y: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: rgb(18, 18, 18);
+}

@@ -1,0 +1,512 @@
+<div class="loading" *ngIf="!pageLoaded">Loading&#8230;</div>
+
+<section *ngIf="pageLoaded" class="details-area">
+    <!-- <hr> -->
+
+    <div class="filter-area hidden-xs" style="width:21%;float:left;">
+
+        <div class="shop-filters">
+            <section class="filter-section">
+                <h3> Filter by price</h3>
+                <form method="get" name="price-filters">
+                    <span class="clear" id="clearPrice" (click)="clearPrice();" style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Arial,Helvetica,sans-serif;">Clear Price</span>
+                    <div class="price-btns" *ngFor="let item of priceRangeList;let i=index;">
+                        <button class="btn btn-success btn-sm" value="below 50$" (click)="priceFilterHandler(i)" style="background-color: #3FB8AF">{{item.min}} to {{item.max}}</button>
+                        <br>
+                        <!-- <button class="btn btn-success btn-sm disabled" value="50$-100$">50$-100$</button><br>
+                        <button class="btn btn-success btn-sm" value="100$-300$">100$-300$</button><br>
+                        <button class="btn btn-success btn-sm" value="300$-1000$">300$-1000$</button> -->
+                    </div>
+                    <div class="price-slider">
+
+                        <nouislider *ngIf="priceRange && priceRange.length" [config]="someRange2config" [connect]="true" [min]="0" [max]="15" [step]="1"
+                            [(ngModel)]="priceRange" (ngModelChange)="onSliderChange($event)" [ngModelOptions]="{standalone: true}"></nouislider>
+                        <div class="text-align-center">
+                            <div class="values group">
+
+                                <input class="form-control" (focusout)="filterPrice()" name="minVal" id="minVal" type="text" [(ngModel)]="selectedMinPrice"
+                                    style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Arial,Helvetica,sans-serif;">
+                                <span class="labels">
+                                    <span>&#8377;</span>- </span>
+                                <input class="form-control" (focusout)="filterPrice()" name="maxVal" id="maxVal" type="text" [(ngModel)]="selectedMaxPrice"
+                                    style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Arial,Helvetica,sans-serif;">
+                                <span class="labels">
+                                    <span>&#8377;</span>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- <input class="btn btn-primary btn-sm" type="button" value="Filter" (click)="filterPrice()" [disabled]="!activatePriceFilter"> -->
+                    </div>
+                </form>
+
+            </section>
+
+            <section class="filter-section" *ngIf="fullbrandFilters && fullbrandFilters.length>1">
+                <h3>Filter by brand</h3>
+                <span class="clear clearChecks" (click)="clearBrand();" style="font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Arial,Helvetica,sans-serif;">Clear Brands</span>
+                <div class="input-group add-on">
+                    <input class="form-control search-box" placeholder="Search Brand" [(ngModel)]="query" name="srch-term" id="srch-term" type="text">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="glyphicon glyphicon-search search-icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="scrolling-box">
+                    <label *ngFor="let value of fullbrandFilters | search:'name':query">
+                        <div class="icheckbox" style="position: relative;">
+                            <input type="checkbox" id="color_0" [checked]="filterBrandList.includes('brand:'+(value.name| capitalize))" (change)="checkedBrandNew(value,$event)"
+                                style="position: absolute; opacity: 1;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Arial,Helvetica,sans-serif;">
+                            <!-- <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins> -->
+                        </div>
+                        {{value.name}} ({{value.doc_count}})
+                    </label>
+                </div>
+
+            </section>
+            <!--
+            <section class="filter-section">
+                    <h3>Filter by category</h3>
+                    <span class="clear clearChecks">Clear Category</span>
+                    <div class="input-group add-on">
+                        <input class="form-control search-box" placeholder="Search Category" [(ngModel)]="query" name="srch-term" id="srch-term" type="text">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search search-icon"></i></button>
+                        </div>
+                    </div>
+                   
+    
+                </section> -->
+
+        </div>
+
+
+    </div>
+
+
+    <div class=" col-main">
+        <!-- <div>
+            <form>
+                <input type="text1" name="search" placeholder="Search..">
+            </form>
+        </div> -->
+        <div class="page-title">
+            <h1>Search results for '{{selectedItem}}'</h1>
+        </div>
+
+        <div>
+            <div class="toolbar">
+                <div class="sorter">
+                   
+                    <div class="sort-by">
+                        <label>Sort By</label>
+                       
+                        <drop-down (select)="sortfilterHandler($event)" [items]="sortfilterOptions" [initialValue]=sortfilterSelected [className]="'drop-down-compare'"
+                            class="sort-filter"></drop-down>
+                      
+                    </div>
+
+                 
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-left sidebar col-left-first">
+            <div id="myFilterModal" class="modal filter" [style.display]="showFilterModal?'block':'none'" style="z-index:20;">
+                <!-- Modal content -->
+                <div class="modal-filter-content">
+                    <div class="filter-head">Filter</div>
+                    <a id="close2" class="nav-btn hover-effect close2">
+                        <span class="icons close-icon" (click)="showFilterModal=false;"></span>
+                    </a>
+                    <div class="filter-content">
+                        <div class="block block-layered-nav amshopby-collapse-enabled amshopby-filters-left block-layered-nav amshopby-collapse-enabled amshopby-filters-left--no-filters">
+                            <div class="block-content toggle-content">
+                                <dl id="narrow-by-list">
+                                    <dt class="odd">Category
+                                        <span> </span>
+                                    </dt>
+                                    <dd id="flt-dd-0" class="odd">
+                                        <ol>
+                                            <li class="amshopby-cat amshopby-cat-level-1">
+                                                <a href="https://shopmonk.com.au/catalogsearch/result/?cat=50&amp;q=apple">
+                                                    TECHNOLOGY </a>
+                                            </li>
+                                            <li class="amshopby-cat amshopby-cat-level-1">
+                                                <a href="https://shopmonk.com.au/catalogsearch/result/?cat=91&amp;q=apple">
+                                                    SHOPMONK SALE </a>
+                                            </li>
+                                            <li class="amshopby-cat amshopby-cat-level-1">
+                                                <a href="https://shopmonk.com.au/catalogsearch/result/?cat=90&amp;q=apple">
+                                                    HOMEPAGE </a>
+                                            </li>
+                                        </ol>
+                                    </dd>
+                                    <dt class="even">Brand
+                                        <span> </span>
+                                    </dt>
+                                    <dd id="flt-dd-1" class="even">
+                                        <ol>
+                                            <li rel="search">
+                                                <input type="text" class="amshopby_attr_search input-text" onkeyup="amshopby_attr_search(this)" placeholder="Search">
+                                            </li>
+                                            <li data-text="KitchenAid">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?brand=4625&amp;q=apple">KitchenAid</a>
+                                            </li>
+                                            <li data-text="Apple">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?brand=112&amp;q=apple">Apple</a>
+                                            </li>
+                                        </ol>
+                                    </dd>
+                                    <dt class="odd">Storage
+                                        <span> </span>
+                                    </dt>
+                                    <dd id="flt-dd-2" class="odd">
+                                        <ol>
+                                            <li data-text="512 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=3988">512 GB</a>
+                                            </li>
+                                            <li data-text="1 TB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=4384">1 TB</a>
+                                            </li>
+                                            <li data-text="320 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=4475">320 GB</a>
+                                            </li>
+                                            <li data-text="500 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=4477">500 GB</a>
+                                            </li>
+                                            <li data-text="700 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=4480">700 GB</a>
+                                            </li>
+                                            <li data-text="750 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=4483">750 GB</a>
+                                            </li>
+                                            <li data-text="2 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=2144">2 GB</a>
+                                            </li>
+                                            <li data-text="8 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=335">8 GB</a>
+                                            </li>
+                                            <li data-text="16 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=331">16 GB</a>
+                                            </li>
+                                            <li data-text="32 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=334">32 GB</a>
+                                            </li>
+                                            <li data-text="64 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=332">64 GB</a>
+                                            </li>
+                                            <li data-text="128 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=333">128 GB</a>
+                                            </li>
+                                            <li data-text="256 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=340">256 GB</a>
+                                            </li>
+                                        </ol>
+                                    </dd>
+                                    <dt class="even">Ram
+                                        <span> </span>
+                                    </dt>
+                                    <dd id="flt-dd-3" class="even">
+                                        <ol>
+                                            <li data-text="1 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=4045">1 GB</a>
+                                            </li>
+                                            <li data-text="512 MB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=4275">512 MB</a>
+                                            </li>
+                                            <li data-text="2 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=2414">2 GB</a>
+                                            </li>
+                                            <li data-text="3 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=4046">3 GB</a>
+                                            </li>
+                                            <li data-text="4 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=2412">4 GB</a>
+                                            </li>
+                                            <li data-text="8 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=2411">8 GB</a>
+                                            </li>
+                                            <li data-text="16 GB">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=2413">16 GB</a>
+                                            </li>
+                                        </ol>
+                                    </dd>
+                                    <dt class="odd">Size
+                                        <span> </span>
+                                    </dt>
+                                    <dd id="flt-dd-4" class="odd">
+                                        <ol>
+                                            <li data-text="38 mm">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;size=4647">38 mm</a>
+                                            </li>
+                                            <li data-text="42 mm">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;size=4648">42 mm</a>
+                                            </li>
+                                            <li data-text="38">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;size=78">38</a>
+                                            </li>
+                                            <li data-text="42">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;size=54">42</a>
+                                            </li>
+                                        </ol>
+                                    </dd>
+                                    <dt class="last even">Availability
+                                        <span> </span>
+                                    </dt>
+                                    <dd id="flt-dd-5" class="last even">
+                                        <ol>
+                                            <li data-text="Include Out of Stock">
+                                                <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;stock=3">Include Out of Stock</a>
+                                            </li>
+                                        </ol>
+                                    </dd>
+                                </dl>
+                                <script type="text/javascript">decorateDataList('narrow-by-list')</script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="myFilterModalNoShow" style="display:none;" class="block block-layered-nav amshopby-collapse-enabled amshopby-filters-left block-layered-nav amshopby-collapse-enabled amshopby-filters-left--no-filters">
+                <div class="block-title">
+                    <strong>
+                        <span>FILTER BY :</span>
+                    </strong>
+                </div>
+                <div class="block-content toggle-content">
+                    <p class="block-subtitle block-subtitle--filter">FILTER BY :</p>
+                    <dl id="narrow-by-list" class="no-display">
+                        <dt>Category
+                            <span> </span>
+                        </dt>
+                        <dd id="flt-dd-0">
+                            <ol>
+                                <li class="amshopby-cat amshopby-cat-level-1">
+                                    <a href="https://shopmonk.com.au/catalogsearch/result/?cat=50&amp;q=apple">
+                                        TECHNOLOGY </a>
+                                </li>
+                                <li class="amshopby-cat amshopby-cat-level-1">
+                                    <a href="https://shopmonk.com.au/catalogsearch/result/?cat=91&amp;q=apple">
+                                        SHOPMONK SALE </a>
+                                </li>
+                                <li class="amshopby-cat amshopby-cat-level-1">
+                                    <a href="https://shopmonk.com.au/catalogsearch/result/?cat=90&amp;q=apple">
+                                        HOMEPAGE </a>
+                                </li>
+                            </ol>
+                        </dd>
+                        <dt>Brand
+                            <span> </span>
+                        </dt>
+                        <dd id="flt-dd-1">
+                            <ol>
+                                <li rel="search">
+                                    <input type="text" class="amshopby_attr_search input-text" onkeyup="amshopby_attr_search(this)" placeholder="Search">
+                                </li>
+                                <li data-text="KitchenAid">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?brand=4625&amp;q=apple">KitchenAid</a>
+                                </li>
+                                <li data-text="Apple">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?brand=112&amp;q=apple">Apple</a>
+                                </li>
+                            </ol>
+                        </dd>
+                        <dt>Storage
+                            <span> </span>
+                        </dt>
+                        <dd id="flt-dd-2">
+                            <ol>
+                                <li data-text="512 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=3988">512 GB</a>
+                                </li>
+                                <li data-text="1 TB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=4384">1 TB</a>
+                                </li>
+                                <li data-text="320 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=4475">320 GB</a>
+                                </li>
+                                <li data-text="500 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=4477">500 GB</a>
+                                </li>
+                                <li data-text="700 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=4480">700 GB</a>
+                                </li>
+                                <li data-text="750 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=4483">750 GB</a>
+                                </li>
+                                <li data-text="2 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=2144">2 GB</a>
+                                </li>
+                                <li data-text="8 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=335">8 GB</a>
+                                </li>
+                                <li data-text="16 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=331">16 GB</a>
+                                </li>
+                                <li data-text="32 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=334">32 GB</a>
+                                </li>
+                                <li data-text="64 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=332">64 GB</a>
+                                </li>
+                                <li data-text="128 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=333">128 GB</a>
+                                </li>
+                                <li data-text="256 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;storage=340">256 GB</a>
+                                </li>
+                            </ol>
+                        </dd>
+                        <dt>Ram
+                            <span> </span>
+                        </dt>
+                        <dd id="flt-dd-3">
+                            <ol>
+                                <li data-text="1 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=4045">1 GB</a>
+                                </li>
+                                <li data-text="512 MB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=4275">512 MB</a>
+                                </li>
+                                <li data-text="2 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=2414">2 GB</a>
+                                </li>
+                                <li data-text="3 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=4046">3 GB</a>
+                                </li>
+                                <li data-text="4 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=2412">4 GB</a>
+                                </li>
+                                <li data-text="8 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=2411">8 GB</a>
+                                </li>
+                                <li data-text="16 GB">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;ram=2413">16 GB</a>
+                                </li>
+                            </ol>
+                        </dd>
+                        <dt>Size
+                            <span> </span>
+                        </dt>
+                        <dd id="flt-dd-4">
+                            <ol>
+                                <li data-text="38 mm">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;size=4647">38 mm</a>
+                                </li>
+                                <li data-text="42 mm">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;size=4648">42 mm</a>
+                                </li>
+                                <li data-text="38">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;size=78">38</a>
+                                </li>
+                                <li data-text="42">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;size=54">42</a>
+                                </li>
+                            </ol>
+                        </dd>
+                        <dt class="last">Availability
+                            <span> </span>
+                        </dt>
+                        <dd id="flt-dd-5" class="last">
+                            <ol>
+                                <li data-text="Include Out of Stock">
+                                    <a class="amshopby-attr" href="https://shopmonk.com.au/catalogsearch/result/?q=apple&amp;stock=3">Include Out of Stock</a>
+                                </li>
+                            </ol>
+                        </dd>
+                    </dl>
+                    <script type="text/javascript">decorateDataList('narrow-by-list')</script>
+                </div>
+                <div style="display:none" class="amshopby-overlay"></div>
+            </div>
+        </div>
+
+        <div class="category-products">
+            <div id="mySortModal" class="modal" [style.display]="showSortingModal?'block':'none'" style="z-index:20;">
+
+                <div class="modal-sort-content">
+                    <div class="toolbar_model">
+                        <div class="sorter">
+                           
+
+                            <div class="sort-by">
+                                <label class="sort-content sort-head" style="position: relative;">
+                                    Sort By
+                                    <span id="close-sortby" class="icons-small close-icon modal-close" (click)="showSortingModal=false;">&nbsp;</span>
+                                </label>
+                              
+                                <a href="#" class="sort-content sort-by-smk-active">Relevance</a>
+                                <a href="https://shopmonk.com.au/catalogsearch/result/index/?dir=asc&amp;order=name&amp;q=apple" class="sort-content sort-by-smk">Price: Low to high</a>
+                                <a href="https://shopmonk.com.au/catalogsearch/result/index/?dir=asc&amp;order=price&amp;q=apple" class="sort-content sort-by-smk">Price: High to low</a>
+                                <a href="https://shopmonk.com.au/catalogsearch/result/index/?dir=desc&amp;order=price&amp;q=apple" class="sort-content sort-by-smk">Popularity</a>
+                            </div>
+
+                        </div>
+                       
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- <div style="min-height:100vh"> -->
+            <!-- <ul class="products-grid products-grid--max-4-col first last odd"> -->
+            <product-list class="test" [pagedItems]=pagedItems [viewSelected]=viewSelected>
+            </product-list>
+
+            <!-- </ul> -->
+            <div id="mobile-filters" class="mobile-fixed-filters" style="z-index:100;">
+
+                <div class="filter-wrap" (click)="filterClickHandler()">
+                    <button id="filterby">
+                        <span class="icons-small filter-icon"></span>
+                        Filter By
+                    </button>
+                </div>
+
+                <div class="filter-wrap" (click)="sortFilterClickHandler();">
+                    <button id="sortby">
+                        <span class="icons-small sort-icon"></span>
+                        Sort By
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- </div> -->
+
+    <!-- </div> -->
+    <!-- pager -->
+    <!-- <div class="row" *ngIf="pagedItems && pagedItems.length && pager.totalPages>1">
+        <div class="col-md-12" style="text-align: center">
+           
+            <ul *ngIf="pager.pages && pager.pages" class="pagination">
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(1)">First</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                </li>
+                <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="setPage(page)">{{page}}</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.totalPages)">Last</a>
+                </li>
+            </ul>
+        </div>
+    </div> -->
+
+
+
+
+</section>
